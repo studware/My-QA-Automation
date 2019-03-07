@@ -214,9 +214,10 @@
         public async Task HouseholdWishlistsBooksCheckUnique()
         {
             //Arrange
+ //           StaticVariables.householdId = 20;
             var response = await Client.GetAsync("/households/" + StaticVariables.householdId + "/wishlistBooks");
+ //           var response = await Client.GetAsync("/households/20/wishlistBooks");
             response.EnsureSuccessStatusCode();
-
 
             //Act
             var content = await response.Content.ReadAsStringAsync();
@@ -226,7 +227,8 @@
             long uniqueBooksCount = uniqueBooksList.LongCount();
 
             //Assert
-            Assert.AreEqual(uniqueBooksCount, expectedCount);
+            Assert.IsTrue(uniqueBooksCount == expectedCount, 
+                "Not all books in household " + StaticVariables.householdId + " are unique!");
         }
 
         [Test]
@@ -237,7 +239,6 @@
             var response = await Client.GetAsync("/books");
             response.EnsureSuccessStatusCode();
 
-
             //Act
             var content = await response.Content.ReadAsStringAsync();
             var booksList = Books.FromJson(content);
@@ -246,7 +247,8 @@
             long uniqueBooksCount = uniqueBooksList.Count();
 
             //Assert
-            Assert.AreNotEqual(uniqueBooksCount, expectedCount);
+           Assert.IsTrue(uniqueBooksCount == expectedCount,
+               "Not all books in household " + StaticVariables.householdId + " are unique!");
         }
     }
 }
