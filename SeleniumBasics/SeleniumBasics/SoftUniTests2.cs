@@ -2,14 +2,6 @@
 {
     using NUnit.Framework;
     using OpenQA.Selenium;
-    using OpenQA.Selenium.Chrome;
-    using OpenQA.Selenium.Support.UI;
-    using SeleniumBasics.Pages;
-    using SeleniumBasics.Pages.RegistrationPage;
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Threading;
 
     [TestFixture]
     public class SoftUniTests2: SetupTest
