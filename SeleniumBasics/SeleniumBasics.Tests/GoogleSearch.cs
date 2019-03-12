@@ -1,4 +1,4 @@
-﻿namespace SeleniumBasics
+﻿namespace SeleniumBasics.Tests
 {
     using NUnit.Framework;
     using OpenQA.Selenium;
