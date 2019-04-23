@@ -2,12 +2,8 @@
 {
     using FluentAssertions;
     using NUnit.Framework;
-    using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
-    using OpenQA.Selenium.Support.UI;
     using Pages.AccordionPage;
-    using Pages.ResizablePage;
-    using System;
     using System.IO;
     using System.Reflection;
 
@@ -15,7 +11,6 @@
     public class AccordionTests : BaseTest
     {
         private AccordionPage accordion;
-
 
         [SetUp]
         public void SetUp()
@@ -26,7 +21,11 @@
         }
 
         [Test]
-        public void Only_SectionOne_IsVisibleToTheUser()
+        [TestCase (0, 1, 2, 3)]
+        [TestCase (1, 0, 2, 3)]
+        [TestCase (2, 1, 0, 3)]
+        [TestCase (3, 1, 2, 0)]
+        public void OnlyClickedSection_Should_Be_Visible(int clicked, int other1, int other2, int other3)
         {
             //Arrange
             var accordion = new AccordionPage(_driver);
@@ -35,94 +34,18 @@
             accordion.AccordionPageLink.Click();
             DelayForVideo();
 
-            accordion.SectionOne.Click();
+            accordion.Sections[clicked].Click();
             DelayForVideo();
-            var sectionOneExpandStatus = accordion.SectionOne.GetAttribute("aria-expanded");
-            var sectionTwoExpandStatus = accordion.SectionTwo.GetAttribute("aria-expanded");
-            var sectionThreeExpandStatus = accordion.SectionThree.GetAttribute("aria-expanded");
-            var sectionFourthExpandStatus = accordion.SectionFourth.GetAttribute("aria-expanded");
+            var sectionClickedExpandStatus = accordion.Sections[clicked].GetAttribute("aria-expanded");
+            var sectionOther1ExpandStatus = accordion.Sections[other1].GetAttribute("aria-expanded");
+            var sectionOther2ExpandStatus = accordion.Sections[other2].GetAttribute("aria-expanded");
+            var sectionOther3ExpandStatus = accordion.Sections[other3].GetAttribute("aria-expanded");
 
             //Assert
-            sectionOneExpandStatus.Should().Be("true");
-            sectionTwoExpandStatus.Should().Be("false");
-            sectionThreeExpandStatus.Should().Be("false");
-            sectionFourthExpandStatus.Should().Be("false");
-        }
-
-        [Test]
-        public void Only_SectionTwo_IsVisibleToTheUser()
-        {
-            _driver.Navigate().GoToUrl("http://demoqa.com/");
-            //Arrange
-            var accordion = new AccordionPage(_driver);
-
-            //Act
-            accordion.AccordionPageLink.Click();
-            DelayForVideo();
-
-            accordion.SectionTwo.Click();
-            DelayForVideo();
-
-            var sectionOneExpandStatus = accordion.SectionOne.GetAttribute("aria-expanded");
-            var sectionTwoExpandStatus = accordion.SectionTwo.GetAttribute("aria-expanded");
-            var sectionThreeExpandStatus = accordion.SectionThree.GetAttribute("aria-expanded");
-            var sectionFourthExpandStatus = accordion.SectionFourth.GetAttribute("aria-expanded");
-
-            //Assert
-            sectionOneExpandStatus.Should().Be("false");
-            sectionTwoExpandStatus.Should().Be("true");
-            sectionThreeExpandStatus.Should().Be("false");
-            sectionFourthExpandStatus.Should().Be("false");
-        }
-
-        [Test]
-        public void Only_SectionThree_IsVisibleToTheUser()
-        {
-            //Arrange
-            var accordion = new AccordionPage(_driver);
-
-            //Act
-            accordion.AccordionPageLink.Click();
-            DelayForVideo();
-
-            accordion.SectionThree.Click();
-            DelayForVideo();
-
-            var sectionOneExpandStatus = accordion.SectionOne.GetAttribute("aria-expanded");
-            var sectionTwoExpandStatus = accordion.SectionTwo.GetAttribute("aria-expanded");
-            var sectionThreeExpandStatus = accordion.SectionThree.GetAttribute("aria-expanded");
-            var sectionFourthExpandStatus = accordion.SectionFourth.GetAttribute("aria-expanded");
-
-            //Assert
-            sectionOneExpandStatus.Should().Be("false");
-            sectionTwoExpandStatus.Should().Be("false");
-            sectionThreeExpandStatus.Should().Be("true");
-            sectionFourthExpandStatus.Should().Be("false");
-        }
-
-        [Test]
-        public void Only_SectionFourth_IsVisibleToTheUser()
-        {
-            //Arrange
-            var accordion = new AccordionPage(_driver);
-
-            //Act
-            accordion.AccordionPageLink.Click();
-            DelayForVideo();
-
-            accordion.SectionFourth.Click();
-            DelayForVideo();
-
-            var sectionOneExpandStatus = accordion.SectionOne.GetAttribute("aria-expanded");
-            var sectionTwoExpandStatus = accordion.SectionTwo.GetAttribute("aria-expanded");
-            var sectionThreeExpandStatus = accordion.SectionThree.GetAttribute("aria-expanded");
-            var sectionFourthExpandStatus = accordion.SectionFourth.GetAttribute("aria-expanded");
-
-            //Assert
-            sectionOneExpandStatus.Should().Be("false");
-            sectionTwoExpandStatus.Should().Be("false");
-            sectionThreeExpandStatus.Should().Be("false");
-            sectionFourthExpandStatus.Should().Be("true");
+            sectionClickedExpandStatus.Should().Be("true");
+            sectionOther1ExpandStatus.Should().Be("false");
+            sectionOther2ExpandStatus.Should().Be("false");
+            sectionOther3ExpandStatus.Should().Be("false");
         }
     }
 }

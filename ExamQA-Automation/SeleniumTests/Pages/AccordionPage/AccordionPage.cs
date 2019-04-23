@@ -7,6 +7,5 @@
         public AccordionPage(IWebDriver driver) : base(driver)
         {
         }
-
     }
 }

@@ -10,11 +10,7 @@
 
         public IWebElement DatePicker => Driver.FindElement(By.Id("datepicker"));
 
-//        public IWebElement Month => Driver.FindElement(By.XPath(@"//*[@id='ui-datepicker-div']/div/div/span[1]"));
-
         public string Month => Driver.FindElement(By.ClassName("ui-datepicker-month")).Text;
-
-//        public IWebElement Year => Driver.FindElement(By.XPath(@"//*[@id='ui-datepicker-div']/div/div/span[2]"));
 
         public string Year => Driver.FindElement(By.ClassName("ui-datepicker-year")).Text;
 
@@ -27,3 +23,8 @@
         public List<IWebElement> LinksToDays => TableOfDays.FindElements(By.TagName("a")).ToList();
     }
 }
+
+
+//        public IWebElement Month => Driver.FindElement(By.XPath(@"//*[@id='ui-datepicker-div']/div/div/span[1]"));
+//        public IWebElement Month => Driver.FindElement(By.XPath(@"//*[@id='ui-datepicker-div']/div/div/span[1]"));
+//        public IWebElement Year => Driver.FindElement(By.XPath(@"//*[@id='ui-datepicker-div']/div/div/span[2]"));

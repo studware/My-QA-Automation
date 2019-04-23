@@ -28,9 +28,9 @@
         }
 
         [Test]
+        [TestCase("April", 20, "2019")]
         [TestCase("April", 21, "2019")]
         [TestCase("April", 22, "2019")]
-        [TestCase("April", 23, "2019")]
         public void Textbox_Value_Should_Match_Selected_Date(string month, int day, string year)
         {
             //Arrange
