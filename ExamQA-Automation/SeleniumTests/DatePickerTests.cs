@@ -16,7 +16,6 @@
     public class DatePickerTests : BaseTest
     {
         private Actions _action;
-        private DatePickerPage datePickerPage;
 
         [SetUp]
         public void SetUp()
@@ -28,9 +27,9 @@
         }
 
         [Test]
-        [TestCase("April", 20, "2019")]
         [TestCase("April", 21, "2019")]
         [TestCase("April", 22, "2019")]
+        [TestCase("April", 23, "2019")]
         public void Textbox_Value_Should_Match_Selected_Date(string month, int day, string year)
         {
             //Arrange
@@ -43,19 +42,21 @@
             _action.MoveToElement(datePickerPage.DatePicker).Perform();
             datePickerPage.DatePicker.Click();
 
-            string[] yearMonth =  datePickerPage.PickYearAndMonth(month, year);
+            string monthInt =  datePickerPage.PickYearAndMonth(month, year).ToString().PadLeft(2, '0');
 
-            DelayForVideo();
+
+            Thread.Sleep(500);
  
             IWebElement[] days = datePickerPage.LinksToDays.ToArray();
             string actualDay = days[dayToPick - 1].Text;
             days[dayToPick-1].Click();
-            Thread.Sleep(2000);
 
+
+            Thread.Sleep(1000);
+            string actualDate = datePickerPage.DatePicker.GetAttribute("value").ToString();
             //Assert
+            string expectedDate = monthInt + "/" + day.ToString() +"/" +  year;
 
-            string actualDate = yearMonth[1] + "/" + actualDay + "/" + yearMonth[0].ToString();
-            string expectedDate = yearMonth[3] + "/" + day.ToString() +"/" +  yearMonth[2];
 
             actualDate.Should().BeEquivalentTo(expectedDate);
         }
