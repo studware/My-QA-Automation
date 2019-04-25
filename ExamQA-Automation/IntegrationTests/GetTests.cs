@@ -19,7 +19,7 @@ namespace Tests
             var test = Guid.Empty.ToString();
             _client = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:6058")
+                BaseAddress = new Uri("http://libraryexam21.azurewebsites.net/")
             };
         }
 
@@ -29,10 +29,10 @@ namespace Tests
             //Arrange
             var expectedAuthor = new Author
             {
-                Id = "25141d83-4584-4487-a306-0441695d8e24",
-                Name = "James Ellroy",
-                Age = 71,
-                Genre = "Fantasy"      // Comedy, Drama, Horror, Thriller
+                Id = "412c3012-d891-4f5e-9613-ff7aa63e6bb3",
+                Name = "Neil Gaiman",
+                Age = 58,
+                Genre = "Fantasy" 
             };
 
             //Act

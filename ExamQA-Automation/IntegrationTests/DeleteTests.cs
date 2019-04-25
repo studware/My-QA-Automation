@@ -52,10 +52,15 @@ namespace IntegrationTests
         public async Task DeleteUnexistingAuthor_ShouldReturnBadRequest()
         {
             //Arrange
-            string authorId = "eb6b4118-d52e-4c96-9b54-2e51ae91a4c3";
+            var authorWithInvalidId = new Author
+            {
+                Id = "eb6b4118-d52e-4c96-9b54-2e51ae91a4c3"
+            };
+
+            var requestContent = new StringContent(authorWithInvalidId.ToJson(), Encoding.UTF8, "application/json");
 
             //Act
-            var deleteResponse = await _client.DeleteAsync($"/api/authors/{authorId}");
+            var deleteResponse = await _client.DeleteAsync($"/api/authors/{authorWithInvalidId}");
 
             //Assert
             deleteResponse.StatusCode.Should().Be(403);
@@ -73,7 +78,7 @@ namespace IntegrationTests
                 Genre = "Drama"
             };
 
-            var requestContent = new StringContent(authorWithInvalidName.ToJson());
+            var requestContent = new StringContent(authorWithInvalidName.ToJson(), Encoding.UTF8, "application/json");
 
             //Act
             var deleteResponse = await _client.DeleteAsync($"/api/authors/{authorWithInvalidName}");

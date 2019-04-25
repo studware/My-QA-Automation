@@ -4,8 +4,8 @@ namespace IntegrationTests
     using IntegrationTests.Models;
     using NUnit.Framework;
     using System;
-    using System.Net;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -18,7 +18,7 @@ namespace IntegrationTests
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:6058")
+                BaseAddress = new Uri("http://libraryexam21.azurewebsites.net/")
             };
         }
 
@@ -28,13 +28,13 @@ namespace IntegrationTests
             //Arrange
             var expectedAuthor = new Author
             {
-                FirstName = "Angela",
-                LastName = "Teneva",
-                DateOfBirth = "1950-10-10T00: 03:20",
-                Genre = "Drama"     // Comedy, Drama, Fantasy, Horror, Thriller
+                FirstName = "Agatha",
+                LastName = "Cristie",
+                DateOfBirth = "1949-10-10T00: 03:20",
+                Genre = "Horror"
             };
 
-            var requestContent = new StringContent(expectedAuthor.ToJson());
+            var requestContent = new StringContent(expectedAuthor.ToJson(), Encoding.UTF8, "application.json");
 
             //Act
             var response = await _client.PostAsync("/api/authors/", requestContent);
@@ -44,8 +44,8 @@ namespace IntegrationTests
 
             //Assert
             actualAuthor.Name.Should().Be(expectedAuthor.FirstName + " " + expectedAuthor.LastName);
-            actualAuthor.Genre.Should().Be("Drama");
-            actualAuthor.Age.Should().Be(65);
+            actualAuthor.Genre.Should().Be("Horror");
+            actualAuthor.Age.Should().Be(70);
         }
 
         [Test]
@@ -54,13 +54,13 @@ namespace IntegrationTests
             //Arrange
             var expectedAuthor = new Author
             {
-                FirstName = "Kuku",
+                FirstName = "Pavel",
                 LastName = "Batman",
-                DateOfBirth = "data",
+                DateOfBirth = "some data",
                 Genre = "Drama"
             };
 
-            var requestContent = new StringContent(expectedAuthor.ToJson());
+            var requestContent = new StringContent(expectedAuthor.ToJson(), Encoding.UTF8, "application/json");
 
             //Act
             var response = await _client.PostAsync("/api/authors/", requestContent);
@@ -73,12 +73,12 @@ namespace IntegrationTests
             //Arrange
             var expectedAuthor = new Author
             {
-                FirstName = "Kuku",
-                DateOfBirth = "data",
+                FirstName = "Pavel",
+                DateOfBirth = "2000-04-12T00: 06:25",
                 Genre = "Drama"
             };
 
-            var requestContent = new StringContent(expectedAuthor.ToJson());
+            var requestContent = new StringContent(expectedAuthor.ToJson(), Encoding.UTF8, "application/json");
 
             //Act
             var response = await _client.PostAsync("/api/authors/", requestContent);
@@ -91,12 +91,12 @@ namespace IntegrationTests
             //Arrange
             var expectedAuthor = new Author
             {
-                FirstName = "Kuku",
+                FirstName = "Pavel",
                 LastName = "Batman",
-                DateOfBirth = "data",
+                DateOfBirth = "2000-04-12T00: 06:25",
             };
 
-            var requestContent = new StringContent(expectedAuthor.ToJson());
+            var requestContent = new StringContent(expectedAuthor.ToJson(), Encoding.UTF8, "application/json");
 
             //Act
             var response = await _client.PostAsync("/api/authors/", requestContent);
