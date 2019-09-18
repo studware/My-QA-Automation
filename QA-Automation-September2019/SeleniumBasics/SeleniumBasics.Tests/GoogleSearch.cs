@@ -17,12 +17,11 @@
         {
             //Arrange&Act
             driver.Navigate().GoToUrl("https://google.com");
-
             IWebElement searchInput = wait.Until<IWebElement>(si => 
                             { return si.FindElement(
                               By.XPath("//*[@id='tsf']/div[2]/div[1]/div[1]/div/div[2]/input"));
                             });
-
+        //or:    var searchInput = driver.FindElement(By.XPath(@"//input[@class='gLFyf gsfi']"));
             searchInput.SendKeys("Selenium");
             string searchValue = searchInput.GetAttribute("value");
 
@@ -36,9 +35,12 @@
                                         return fl.FindElement(By.Id("rso"))
                                         .FindElement(By.TagName("a")); });
 
-// XPath            //*[@id="rso"]/div[2]/div/div/div/div[1]/a/h3/div
+        // XPath            //*[@id="rso"]/div[2]/div/div/div/div[1]/a/h3/div
+        //  Or if the search button is not visible, just click at the page logo:
+        //  var logo = driver.FindElement(By.Id("hplogo"));
+        //  logo.Click();
 
-           string seleniumLinkText = seleniumLink.Text;
+            string seleniumLinkText = seleniumLink.Text;
            seleniumLink.Click();
            
            //Assert

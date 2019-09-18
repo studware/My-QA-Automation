@@ -21,14 +21,16 @@
 
             //Act
             signInButton.Click();
+            string eMailInputText = "peter@mail.bg";
             IWebElement eMailInput = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("email_create")); });
-            eMailInput.SendKeys("peter@mail.bg");
+            eMailInput.SendKeys(eMailInputText);
 
             IWebElement submitCreate = driver.FindElement(By.Id("SubmitCreate"));
             submitCreate.Click();
 
             //Assert
-            IWebElement createAccountForm = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("create-account_form")); });
+//            IWebElement createAccountForm = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("create-account_form")); });
+            IWebElement createAccountForm = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("account-creation_form")); });
 
 //            string formLogo = createAccountForm.Text.Trim().Substring(0, 17);
 //            string url = driver.Url;
@@ -37,8 +39,12 @@
 //            Assert.IsNotNull(url);
 //            Assert.AreEqual("http://automationpractice.com/index.php?controller=authentication&back=my-account", url); 
 
-            var actualEmail = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("email")); });
-            Assert.AreEqual(eMailInput.Text, actualEmail.Text);
+// By chance :-)            var actualEmail = wait.Until<IWebElement>(d => { return d.FindElement(By.Id("email")); });
+
+            var actualEmail = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
+                    ElementIsVisible(By.XPath("//form[@id='account-creation_form']//input[@id='email']")));
+            Assert.AreEqual(eMailInputText, actualEmail.GetAttribute("value"));
         }
      }
 }
+
