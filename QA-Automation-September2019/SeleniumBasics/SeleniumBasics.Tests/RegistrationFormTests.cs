@@ -44,7 +44,9 @@
             var actualEmail = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
                     ElementIsVisible(By.XPath("//form[@id='account-creation_form']//input[@id='email']")));
             Assert.AreEqual(eMailInputText, actualEmail.GetAttribute("value"));
+
+//            StringAssert.Contains(eMailInputText, actualEmail.GetAttribute("value"));
         }
-     }
+    }
 }
 
