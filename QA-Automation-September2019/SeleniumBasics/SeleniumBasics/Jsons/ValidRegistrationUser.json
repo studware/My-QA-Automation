@@ -1,0 +1,8 @@
+{
+  "firstName": "Peter",
+  "lastName": "Draganov",
+  "email": "peter@mail.bg",
+  "password": "123456",
+  "dateOfBirth": "1981-08-25T10:45:18.095Z",
+  "address": {}
+}
