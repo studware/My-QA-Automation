@@ -1,4 +1,4 @@
-﻿namespace SeleniumTests.Pages
+﻿namespace Selenium.Interaction.Tests.Pages
 {
 	using OpenQA.Selenium;
 

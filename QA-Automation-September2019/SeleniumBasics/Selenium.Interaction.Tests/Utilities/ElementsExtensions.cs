@@ -1,4 +1,4 @@
-﻿namespace SeleniumTests.Utilities
+﻿namespace Selenium.Interaction.Tests.Utilities
 {
 	using OpenQA.Selenium;
 	using OpenQA.Selenium.Interactions;

@@ -1,4 +1,4 @@
-﻿namespace SeleniumTests.Pages.ResizablePage
+﻿namespace Selenium.Interaction.Tests.Pages.ResizablePage
 {
     using OpenQA.Selenium;
     using OpenQA.Selenium.Interactions;

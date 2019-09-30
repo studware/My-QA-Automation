@@ -1,13 +1,10 @@
-﻿namespace SeleniumTests.Pages
+﻿namespace Selenium.Interaction.Tests.Pages
 {
-	using OpenQA.Selenium;
+    using OpenQA.Selenium;
     using OpenQA.Selenium.Interactions;
-    using System.Threading;
 
     public partial class DroppablePage : BasePage
     {
-        private Actions _action;
-
         public DroppablePage(IWebDriver driver) : base(driver)
 	    {
 	    }
