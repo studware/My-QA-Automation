@@ -1,5 +1,8 @@
 ﻿namespace Selenium.Interaction.Tests.Pages.ResizablePage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     using OpenQA.Selenium;
 
     public partial class ResizablePage

@@ -1,14 +1,21 @@
 ﻿namespace Selenium.Interaction.Tests
 {
     using NUnit.Framework;
+    using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
-    using Pages.ResizablePage;
+    using OpenQA.Selenium.Support.UI;
     using System.IO;
     using System.Reflection;
+    using Pages.ResizablePage;
+    using System;
+    using FluentAssertions;
+    using OpenQA.Selenium.Interactions;
 
     [TestFixture]
     public class ResizableTests : BaseTest
     {
+        private ResizablePage resizable;
+
         [SetUp]
         public void SetUp()
         {

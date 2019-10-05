@@ -46,9 +46,6 @@
 
             //Assert
             actualTextColor.Should().BeEquivalentTo(expectedTextColor);
-
-//           var textAfter = droppablePage.Draggable.Text;
-//           Assert.AreEqual("Drag me around", textAfter, "Text is not Drag me around.");
         }
 
         [Test]
@@ -206,27 +203,6 @@
             afterX.Should().Be(dragX+offsetX);
             afterY.Should().Be(dragY+offsetY);
         }
-/*
-        [Test]
-        public void DragOutsidePageContent()
-        {
-            droppablePage = new DroppablePage(_driver);
-
-            droppablePage.DroppableLink.Click();
-            DelayForVideo();
-
-            var draggable = droppablePage.Draggable;
-            _action.MoveToElement(droppablePage.Draggable).Perform();
-            DelayForVideo();
-
-            var draggableXOffset = _driver.Manage().Window.Size.Width - draggable.Location.X - draggable.Size.Width;
-            droppablePage.DragAndDropHandle(droppablePage.Draggable, draggableXOffset, 0);
-
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-            bool horizontalScroll = (bool)js.ExecuteScript("return document.documentElement.scrollWidth > document.documentElement.clientWidth;");
-            Assert.IsTrue(horizontalScroll);
-        }
-*/
     }
 }
 
