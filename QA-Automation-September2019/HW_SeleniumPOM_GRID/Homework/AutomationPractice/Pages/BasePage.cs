@@ -12,7 +12,7 @@
         public BasePage(IWebDriver driver)
         {
             _driver = driver;
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(50));
         }
 
         public IWebDriver Driver => _driver;

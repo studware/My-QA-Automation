@@ -1,0 +1,11 @@
+{
+  "capabilities": 
+  [
+    {
+      "browserName": "chrome",
+      "version": "77.0",
+      "platform": "Windows",
+	  "timeout": 3000
+    }
+  ]
+}
