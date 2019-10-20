@@ -10,29 +10,27 @@
     {
         private ChromeDriver _driver;
         private GoogleSearchPage _googleSearchPage;
-        private GoogleResultsPage _googleResultsPage;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void TestInitialize()
         {
             _driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             _driver.Manage().Window.Maximize();
 
             _googleSearchPage = new GoogleSearchPage(_driver);
-            _googleResultsPage = new GoogleResultsPage(_driver);
-
         }
-                     
+
         [Test]
-        public void SeleniumSearch()
+        public void NavigateToGoogleSearchResult()
         {
-            _googleResultsPage.Navigate(_googleSearchPage);
-            var foundResult = _driver.Title;
-                       
+            _googleSearchPage.NavigateToSearchResult();
+
+            _googleSearchPage.AssertPageTitle("Selenium - Web Browser Automation");
+
         }
 
-        [TearDown]
-        public void TearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
             _driver.Quit();
         }
