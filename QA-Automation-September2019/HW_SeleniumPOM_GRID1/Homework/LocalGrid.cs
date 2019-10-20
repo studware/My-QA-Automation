@@ -19,7 +19,7 @@
             options.PlatformName = "windows";
             options.BrowserVersion = "77.0";
 
-            _driver = new RemoteWebDriver(new Uri("http://134.122.123.134:12345/wd/hub"), options.ToCapabilities(), TimeSpan.FromSeconds(20));
+            _driver = new RemoteWebDriver(new Uri("http://192.124.257.24:48129/wd/hub"), options.ToCapabilities(), TimeSpan.FromSeconds(20));
             _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
         }
 

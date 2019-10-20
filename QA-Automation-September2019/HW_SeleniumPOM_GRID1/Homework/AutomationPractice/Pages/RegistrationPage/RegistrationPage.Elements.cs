@@ -2,9 +2,14 @@
 {
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
+    using System.Collections.Generic;
 
-    public partial class RegistrationPage
+    public partial class RegistrationPage : BasePage
     {     
+        public RegistrationPage(IWebDriver driver) : base (driver)
+        {
+        }
+
         public string GetUrl()
         {
             return "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
@@ -28,8 +33,6 @@
         public IWebElement CustomerFirstName => Driver.FindElement(By.Id("customer_firstname"));
 
         public IWebElement CustomerLastName => Driver.FindElement(By.Id("customer_lastname"));
-
-        public IWebElement EmailText => Wait.Until(d => d.FindElement(By.XPath("//form[@id='account-creation_form']//input[@id='email']")));
 
         public IWebElement Password => Driver.FindElement(By.Id("passwd"));
 

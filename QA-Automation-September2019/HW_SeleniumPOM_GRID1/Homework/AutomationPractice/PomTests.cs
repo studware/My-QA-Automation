@@ -9,12 +9,9 @@
     [TestFixture]
     public class POMTests
     {
-        private HomePage _homePage;
         private LoginPage _loginPage;
         private RegistrationPage _regPage;
-
         private RegistrationUser _user;
-
         private ChromeDriver _driver;
 
         [SetUp]
@@ -22,9 +19,8 @@
         {
             _driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             _driver.Manage().Window.Maximize();
-            //      _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5); // This will slowdown all the tests
+      //      _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5); // This will slowdown all the tests
 
-            _homePage = new HomePage(_driver);
             _loginPage = new LoginPage(_driver);
             _regPage = new RegistrationPage(_driver);
 
@@ -33,22 +29,21 @@
         }
 
         [Test]
-        public void AutomationPracticeRegistrationPageOpen()
+        public void AutomationpracticeRegistrationPageOpen()
         {
-            //Arrange&Act          
-            _homePage.NavigateToLoginPage(_homePage);
-            string expected =_loginPage.NavigateToRegPage(_loginPage);
-            string text = _regPage.EmailText.GetAttribute("value");
-
+            //Arrange          
+            _regPage.Navigate(_loginPage);
+            
             //Assert
-            Assert.AreEqual(expected, text);
+            Assert.AreEqual("YOUR PERSONAL INFORMATION", _regPage.RegistrationForm.Text);
+//            Assert.IsNotNull(_regPage.ActualEmail.Text);
         }
 
         [Test]
         public void FillRegistrationFormMissingPhoneNumber()
         {
             _user.Phone = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
             
             _regPage.AssertErrorMessage("You must register at least one phone number.");
@@ -59,7 +54,7 @@
         public void FillRegistrationFormMissingLastName()
         {
             _user.LastName = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("lastname is required.");
@@ -70,7 +65,7 @@
         public void FillRegistrationFormMissingFirstName()
         {
             _user.FirstName = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("firstname is required.");
@@ -81,7 +76,7 @@
         public void FillRegistrationFormMissingPassword()
         {
             _user.Password = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("passwd is required.");
@@ -91,7 +86,7 @@
         public void FillRegistrationFormMissingAddress()
         {
             _user.Address = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("address1 is required.");
@@ -101,7 +96,7 @@
         public void FillRegistrationFormMissingCity()
         {
             _user.City = "";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("city is required.");
@@ -111,7 +106,7 @@
         public void FillRegistrationFormWithInvalidPostCode()
         {
             _user.PostCode = "d4g6";
-            _loginPage.NavigateToRegPage(_loginPage);
+            _regPage.Navigate(_loginPage);
             _regPage.FillForm(_user);
 
             _regPage.AssertErrorMessage("The Zip/Postal code you've entered is invalid. It must follow this format: 00000");

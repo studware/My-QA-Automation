@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding = "utf-8"?>
+<RunSettings>
+    <NUnit>
+        <TestOutputXml>..\..\..\TestResults</TestOutputXml>
+    </NUnit>
+</RunSettings>
+
+<!--Creates an .xml file with test results: search for NUnit runsettings in browser
+Choose this file in the Test Explorer option "Select Settings File"
+-->
