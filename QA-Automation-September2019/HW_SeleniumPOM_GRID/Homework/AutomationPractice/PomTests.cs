@@ -2,6 +2,8 @@
 {
     using Homework.Pages;
     using NUnit.Framework;
+    using NUnit.Framework.Interfaces;
+    using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using System.IO;
     using System.Reflection;
@@ -119,10 +121,23 @@
 
 
         [TearDown]
-        public void TearDown()
+        public void CleanUp()
         {
+            // TO DO: Move this code and add it to the BaseTest.CleanUp member!
             _driver.Quit();
-        }
 
+            var name = TestContext.CurrentContext.Test.Name;
+            var result = TestContext.CurrentContext.Result.Outcome;
+
+            if (result != ResultState.Success)
+            {
+                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+                //     var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                //     var directory = Directory.GetCurrentDirectory();
+
+                var fullPath = Path.GetFullPath("..\\..\\..\\Screenshots\\");
+                screenshot.SaveAsFile(fullPath + name + ".png", ScreenshotImageFormat.Png);
+            }
+        }
     }
 }
