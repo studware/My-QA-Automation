@@ -1,0 +1,1275 @@
+{
+	"info": {
+		"_postman_id": "0e0fbb3e-2b8b-4fab-96d3-61cf77677cc0",
+		"name": "MyFirstCollectionWithGlobals",
+		"description": "A collection of requests to create a new household, add users and books to it and get the entire wishlist for created household ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET All households",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb48013c-59be-454e-a009-14c5da9f966b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"",
+							"pm.globals.set(\"householdsCount\", JSON.parse(responseBody).length);",
+							"var count = pm.globals.get(\"householdsCount\");",
+							"console.log(\"count: \", count);",
+							"pm.test(\"At least 1 household is returned\", function () { ",
+							"    pm.expect(count).to.be.greaterThan(0);",
+							"});",
+							"",
+							"var allHouseholds = JSON.parse(responseBody);",
+							"const expected = allHouseholds.length;",
+							"//const expected=7;",
+							"var householdsUnique = [...new Set(allHouseholds.map(item => item.name))];",
+							"var uniqueCount = householdsUnique.length;",
+							"pm.test(\"Households should be unique; if not, this should be reported as a bug!\", function () { ",
+							"    pm.expect(uniqueCount).to.be.eql(expected);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/households",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"households"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add household named \"Berlin\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f3328d0-26f2-400c-9966-731cf9bc142c",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.globals.set(\"householdId\", response.id);     // globals are used in request which follow",
+							"pm.globals.set(\"householdName\", response.name);",
+							"",
+							"/*  const title = pm.response.body().title;     // const title may be used in the same request",
+							"    title === \"nestosi\";   */",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Berlin\"}"
+				},
+				"url": {
+					"raw": "{{host}}/households",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"households"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All households Check Incremented By 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb48013c-59be-454e-a009-14c5da9f966b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"var households = JSON.parse(responseBody);",
+							"var householdsNewCount = households.length;",
+							"console.log(\"newCount: \", householdsNewCount);",
+							"var previousCount = pm.globals.get(\"householdsCount\");",
+							"console.log(\"expectedCount: \", previousCount+1);",
+							"pm.test(\"Households count should have been incremented by 1\", function () { ",
+							"    pm.expect(householdsNewCount).to.be.eql(previousCount + 1);",
+							"});",
+							"",
+							"var householdsUnique = [...new Set(households.map(item => item.name))];",
+							"var expected = householdsNewCount;",
+							"//const expected=7;",
+							"var uniqueCount = householdsUnique.length;",
+							"pm.test(\"Households should be unique; if not, this should be reported as a bug!\", function () { ",
+							"    pm.expect(uniqueCount).to.be.eql(expected);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"type": "text",
+						"value": "ROM831ESV"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/households",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"households"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user Kiko",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb1117e-77b7-4e75-9194-aa8af3a1bcd7",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"kiko@mailfellow.com\",\n    \"firstName\": \"Kiko\",\n    \"lastName\": \"Portoriko\",\n    \"householdId\": {{householdId}}\n  }"
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user Riko",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea751162-2a57-4334-a302-1b2e4c7ceb74",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"riko@mailfellow.com\",\n    \"firstName\": \"Riko\",\n    \"lastName\": \"Kukuriko\",\n    \"householdId\": {{householdId}}\n  }"
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "762a6bb3-4b77-4fe6-857c-d245ae6921ff",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"type": "text",
+						"value": "ROM831ESV"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book \"Oceola\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51721640-8c0a-4a21-bf85-a26f71d1bb23",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Oceola\",\n\t\"author\": \"Mayne Reid\",\n\t\"publicationDate\": \"2018-02-19\",\n\t\"isbn\": \"2720006406\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book \"Captain Nemo\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "76f95be2-0467-4077-ab5a-c401796abb5b",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Captain Nemo\",\n\t\"author\": \"Kevin Anderson\",\n\t\"publicationDate\": \"2019-01-09\",\n\t\"isbn\": \"0640272006\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book \"Pipi LongStockings\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "486262b0-31ec-4fa0-bc06-aa5ba3af917d",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Pipi LongStockings\",\n\t\"author\": \"Astrid Lindgren\",\n\t\"publicationDate\": \"2005-04-21\",\n\t\"isbn\": \"8649272356\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book \"Lisko\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9888c648-79ee-485e-99ed-b5c0f1a04c5d",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Lisko\",\n\t\"author\": \"Boris Aprilov\",\n\t\"publicationDate\": \"1980-06-01\",\n\t\"isbn\": \"9272864356\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e7a39cc6-4556-4ab4-b090-c0961c0eba3d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f1fbec8-fc2b-4506-a712-c3119e8e98e0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"var books = JSON.parse(responseBody);",
+							"var booksCount = books.length;",
+							"pm.test(\"At least 1 book is returned\", function () { ",
+							"    pm.expect(booksCount).to.be.greaterThan(0);",
+							"});",
+							"",
+							"var booksUnique = [...new Set(books.map(item => item.isbn))];",
+							"const expected = booksCount;",
+							"var uniqueCount = booksUnique.length;",
+							"pm.test(\"Books in this database are unique\", function () { ",
+							"    pm.expect(uniqueCount).to.be.eql(expected);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book 19 to Kiko's wishlist (9)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ce37bd7-4667-4fda-8d3d-e0be0af76bac",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/9/books/19",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"9",
+						"books",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book 20 to Kiko's wishlist (9)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b6068d3-3f82-4a3b-8a25-19f4a8679f88",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/9/books/20",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"9",
+						"books",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Kiko's wishlist of books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9df8ff36-30b4-4dca-bdc1-05e2e490390f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/9/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"9",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book 21 to Riko's wishlist (10)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4892173c-3601-4d7a-8ea7-11cddd6d10bb",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/10/books/21",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"10",
+						"books",
+						"21"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book 22 to Riko's Wishlist (10)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "085bc0aa-b620-4e9f-b3a1-39628bd0ccdf",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/10/books/22",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"10",
+						"books",
+						"22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create the wishlistBooks table",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/wishlists/7/books/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wishlists",
+						"7",
+						"books",
+						"1"
+					]
+				},
+				"description": "Post Request To Create the wishlistBooks table which contains relationship between the wishlists of the users in the household 7 and the corresponding books."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all wishlists from household 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9727375-91b3-4717-b185-61028276c51d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"var wishlists = JSON.parse(responseBody);",
+							"var wishlistsCount = wishlists.length;",
+							"pm.test(\"At least 1 wishlist for household 'Gabrovo' Is Returned\", function () { ",
+							"    pm.expect(wishlistsCount).to.be.greaterThan(0);",
+							"});",
+							"",
+							"var wishlistsUnique = [...new Set(wishlists.map(item => item.title))];",
+							"const expected = wishlistsCount;",
+							"var uniqueCount = wishlistsUnique.length;",
+							"pm.test(\"Books in wishlists for household 'Gabrovo' are unique\", function () { ",
+							"    pm.expect(uniqueCount).to.be.eql(expected);",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "G-Token",
+						"value": "ROM831ESV",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/households/7/wishlistBooks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"households",
+						"7",
+						"wishlistBooks"
+					]
+				},
+				"description": "Get all wishlists from the household 7 using wishlistBooks table"
+			},
+			"response": []
+		}
+	]
+}
