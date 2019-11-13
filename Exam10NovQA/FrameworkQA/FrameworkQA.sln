@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationQA", "IntegrationQA\IntegrationQA.csproj", "{82CB58A0-8D8C-4432-89C4-97944C83DDC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumQA", "SeleniumQA\SeleniumQA.csproj", "{06AF4CC4-9959-43E3-A470-F374E0E5B1E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82CB58A0-8D8C-4432-89C4-97944C83DDC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CB58A0-8D8C-4432-89C4-97944C83DDC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CB58A0-8D8C-4432-89C4-97944C83DDC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CB58A0-8D8C-4432-89C4-97944C83DDC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06AF4CC4-9959-43E3-A470-F374E0E5B1E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AF4CC4-9959-43E3-A470-F374E0E5B1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06AF4CC4-9959-43E3-A470-F374E0E5B1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06AF4CC4-9959-43E3-A470-F374E0E5B1E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3B67C1E-E839-4F36-BD06-59010099B2EE}
+	EndGlobalSection
+EndGlobal
