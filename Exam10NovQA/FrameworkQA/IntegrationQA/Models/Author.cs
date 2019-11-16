@@ -6,12 +6,9 @@
 //
 //    var author = Author.FromJson(jsonString);
 
-namespace IntegrationTests.Models
+namespace IntegrationQA.Models
 {
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using System;
-    using System.Globalization;
 
     public partial class Author
     {
@@ -35,40 +32,54 @@ namespace IntegrationTests.Models
 
         [JsonProperty("dateOfBirth")]
         public string DateOfBirth { get; set; }
-    }
 
-    public partial class Link
-    {
-        [JsonProperty("href")]
-        public Uri Href { get; set; }
+        public static Author PostAuthor()
+        {
+            return new Author
+            {
+                FirstName = "Vladimir",
+                LastName = "Zarev",
+    //          DateOfBirth = "1947-03-04T00:00:00",
+                Genre = "Thriller"
+            };
+        }
 
-        [JsonProperty("rel")]
-        public string Rel { get; set; }
+        public static Author PostSampleAuthor()
+        {
+            return new Author
+            {
+                FirstName = "Jens",
+                LastName = "Lapidus",
+    //          DateOfBirth = "1974-03-04T00:00:00",
+                Genre = "Thriller"
+            };
+        }
 
-        [JsonProperty("method")]
-        public string Method { get; set; }
+        public static Author GetAuthor()
+        {
+            return new Author
+            {
+                Name = "Vladimir Zarev",
+                Genre = "Thriller",
+                Age = 72
+            };
+        }
+
+        public static Author GetSampleAuthor()
+        {
+            return new Author
+            {
+                Id = "a1da1d8e-1988-4634-b538-a01709477b77",
+                Name = "Jens Lapidus",
+                Genre = "Thriller",
+                Age = 45
+            };
+        }
     }
 
     public partial class Author
     {
-        public static Author FromJson(string json) => JsonConvert.DeserializeObject<Author>(json, IntegrationTests.Models.Converter.Settings);
-    }
-
-    public static class Serialize
-    {
-        public static string ToJson(this Author self) => JsonConvert.SerializeObject(self, IntegrationTests.Models.Converter.Settings);
-    }
-
-    internal static class Converter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
+        public static Author FromJson(string json) => JsonConvert.
+            DeserializeObject<Author>(json, Extensions.Converter.Settings);
     }
 }
