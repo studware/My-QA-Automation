@@ -28,7 +28,7 @@
         }
 
         [Test]
-        public async Task DeleteAuthor_With_InValidId_ShouldDisplayErrorMessage()
+        public async Task DeleteAuthor_With_InValid_Id_Should_Not_Return_OK()
         {
             //Arrange&Act
             HttpResponseMessage response = await _client.DeleteAsync($"/api/authors/{String.Empty}");
