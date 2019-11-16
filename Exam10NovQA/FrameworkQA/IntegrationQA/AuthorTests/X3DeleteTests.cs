@@ -1,8 +1,10 @@
 ﻿namespace IntegrationQA
 {
+    using FluentAssertions;
     using IntegrationQA.Models;
     using NUnit.Framework;
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
 
@@ -23,6 +25,18 @@
             // Assert
             Assert.NotNull(author);
             Assert.AreEqual(authorId, author.Id);
+        }
+
+        [Test]
+        public async Task DeleteAuthor_With_InValidId_ShouldDisplayErrorMessage()
+        {
+            //Arrange&Act
+            HttpResponseMessage response = await _client.DeleteAsync($"/api/authors/{String.Empty}");
+
+            // Assert
+            int responseStatus = (int)response.StatusCode;
+            response.StatusCode.Should().NotBeEquivalentTo((int)HttpStatusCode.OK);
+            Assert.That(responseStatus >= 400);
         }
     }
 }
