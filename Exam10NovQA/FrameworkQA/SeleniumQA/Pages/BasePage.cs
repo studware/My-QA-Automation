@@ -15,5 +15,7 @@
 		public IWebDriver Driver { get; }
 
 		public WebDriverWait Wait => new WebDriverWait(Driver, TimeSpan.FromSeconds(2));
+
+        public int postListIndex;
     }    
 }

@@ -2,7 +2,6 @@
 {
     using FluentAssertions;
     using NUnit.Framework;
-    using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using Pages.AccordionPage;
     using System.IO;

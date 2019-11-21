@@ -3,12 +3,15 @@
     using NUnit.Framework;
     using NUnit.Framework.Interfaces;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Support.UI;
     using System;
     using System.IO;
     using System.Threading;
     public class BaseTest
     {
         public IWebDriver Driver { get; protected set; }
+        public WebDriverWait Wait { get; protected set; }
 
         [TearDown]
         public void TearDown()
