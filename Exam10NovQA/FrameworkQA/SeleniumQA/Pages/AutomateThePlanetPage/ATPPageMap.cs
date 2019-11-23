@@ -10,7 +10,7 @@
     {
 	    public IWebElement Blog => Driver.FindElement(By.Id("menu-item-6"));
         public List<IWebElement> PostLists => Driver.FindElements(By.ClassName("post-list")).ToList();
-        public List<IWebElement> PostsInList => PostLists[postListIndex].FindElements(By.TagName("article")).ToList();
+        public List<IWebElement> PostsInList => PostLists[listIndex].FindElements(By.TagName("article")).ToList();
         public IWebElement Navigation => Driver.FindElement(By.XPath("//*[@id='tve_editor']")).FindElement(By.TagName("span"));
         public List<IWebElement> NavigationLinks => Driver.FindElements(By.XPath("//*[@id='tve_editor']/div[2]/div/div/a")).ToList();
 

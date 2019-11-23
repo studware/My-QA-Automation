@@ -1,15 +1,13 @@
 ﻿namespace SeleniumQA
 {
-	using System.IO;
-	using System.Reflection;
-	using SeleniumQA.Pages.AutomateThePlanetPage;
-	using FluentAssertions;
-	using NUnit.Framework;
-	using OpenQA.Selenium.Chrome;
-    using OpenQA.Selenium;
+    using FluentAssertions;
+    using NUnit.Framework;
+    using OpenQA.Selenium.Chrome;
     using OpenQA.Selenium.Support.UI;
+    using SeleniumQA.Pages.AutomateThePlanetPage;
     using System;
-    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
 
     [TestFixture]
     public class AutomateThePlanet : BaseTest
@@ -19,7 +17,7 @@
 	    {
 		    Driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 		    Driver.Manage().Window.Maximize();
-		    Driver.Url = "https://www.automatetheplanet.com/";
+		    Driver.Navigate().GoToUrl("https://www.automatetheplanet.com/");
             Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
         }
 
@@ -36,10 +34,10 @@
             DelayForVideo();
 
             int mod = article % 3;
-            page.postListIndex = (mod != 0) ? (article/3 +1) : article/3;
+            page.listIndex = (mod != 0) ? (article/3 +1) : article/3;
             article = (mod != 0) ? (mod - 1) : 2;
 
-            page.ScrollTo(page.PostLists[page.postListIndex]);
+            page.ScrollTo(page.PostLists[page.listIndex]);
             DelayForVideo();
             page.PostsInList[article].Click();
             DelayForVideo();

@@ -48,10 +48,10 @@ namespace IntegrationQA.Models
         {
             return new Author
             {
-                FirstName = "Jens",
-                LastName = "Lapidus",
+                FirstName = "Adolf",
+                LastName = "Hitler",
     //          DateOfBirth = "1974-03-04T00:00:00",
-                Genre = "Thriller"
+                Genre = "Biographical"
             };
         }
 
@@ -70,9 +70,9 @@ namespace IntegrationQA.Models
             return new Author
             {
                 Id = "a1da1d8e-1988-4634-b538-a01709477b77",
-                Name = "Jens Lapidus",
-                Genre = "Thriller",
-                Age = 45
+                Name = "Adolf Hitler",
+                Genre = "Biographical",
+                Age = 2018
             };
         }
     }

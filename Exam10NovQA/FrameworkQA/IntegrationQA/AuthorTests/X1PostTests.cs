@@ -31,8 +31,8 @@
 
             //Assert
             actualAuthors[1].Name.Should().Be(expectedAuthor.FirstName + " " + expectedAuthor.LastName);
-            actualAuthors[1].Genre.Should().Be("Thriller");
-            actualAuthors[1].Age.Should().Be(45);
+            actualAuthors[1].Genre.Should().Be("Biographical");
+            actualAuthors[1].Age.Should().Be(2018);
 //            actualAuthors[1].Age.Should().Be(72);
         }
      }
